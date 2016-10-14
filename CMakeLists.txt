@@ -12,9 +12,9 @@ set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 ################################################################################
 
 #set compiler options
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra -Werror")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -Wall -Wextra -Werror")
 if (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libstdc++")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 endif ()
 
 #define symbols for debug build
@@ -28,15 +28,6 @@ endif ()
 #include directory of project
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/src
-)
-
-#project files to compile
-file(GLOB_RECURSE project_SRC
-	${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
-)
-file(GLOB_RECURSE project_HDR
-	${CMAKE_CURRENT_SOURCE_DIR}/src/*.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp
 )
 
 #libraries to link
@@ -60,10 +51,34 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-include_directories(${CMAKE_BINARY_DIR})
-
 #generate completion database
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
+#############################################
+# Examples target
+#############################################
+#project files to compile
+file(GLOB_RECURSE examples_SRC
+	${CMAKE_CURRENT_SOURCE_DIR}/examples/*.cpp
+)
+file(GLOB_RECURSE examples_HDR
+	${CMAKE_CURRENT_SOURCE_DIR}/examples/*.hpp
+)
+
 #build executable and then link to the libraries
-add_executable(reflectance_test ${project_SRC} ${project_HDR}) 
+add_executable(examples ${examples_SRC} ${examples_HDR}) 
+target_link_libraries(examples ${LINKED_LIBRARIES})
+
+#############################################
+# Reflectance library target
+#############################################
+#project files to compile
+file(GLOB_RECURSE project_SRC
+	${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+)
+file(GLOB_RECURSE project_HDR
+	${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp
+)
+
+#build executable and then link to the libraries
+#add_library(reflectance STATIC ${project_SRC} ${project_HDR}) 
