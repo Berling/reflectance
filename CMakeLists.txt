@@ -27,7 +27,7 @@ endif ()
 
 #include directory of project
 include_directories(
-	${CMAKE_CURRENT_SOURCE_DIR}/src
+	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 #libraries to link
@@ -50,9 +50,6 @@ endif ()
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
-#generate completion database
-set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 #############################################
 # Examples target
@@ -81,4 +78,10 @@ file(GLOB_RECURSE project_HDR
 )
 
 #build executable and then link to the libraries
-#add_library(reflectance STATIC ${project_SRC} ${project_HDR}) 
+add_library(reflectance STATIC ${project_SRC} ${project_HDR}) 
+set_target_properties(reflectance PROPERTIES LINKER_LANGUAGE CXX)
+target_link_libraries(reflectance ${LINKED_LIBRARIES})
+
+#generate completion database
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
