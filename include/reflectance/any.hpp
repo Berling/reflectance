@@ -109,7 +109,7 @@ public:
 			_stack_allocated = true;
 			other._stack_allocated = false;
 		} else {
-			_heap_allocated_conatined_value = other._heap_allocated_conatined_value->move();
+			_heap_allocated_conatined_value = std::move(other._heap_allocated_conatined_value);
 			_stack_allocated = false;
 			other._heap_allocated_conatined_value = nullptr;
 		}
@@ -122,7 +122,7 @@ public:
 			_stack_allocated = true;
 			other._stack_allocated = false;
 		} else {
-			_heap_allocated_conatined_value = other._heap_allocated_conatined_value->move();
+			_heap_allocated_conatined_value = std::move(other._heap_allocated_conatined_value);
 			_stack_allocated = false;
 			other._heap_allocated_conatined_value = nullptr;
 		}
@@ -160,7 +160,9 @@ public:
 	}
 
 	void swap(any& other) {
-		std::swap(*this, other);
+		auto tmp = std::move(*this);
+		*this = std::move(other);
+		other = std::move(tmp);
 	}
 
 	template <typename ValueType>
@@ -278,6 +280,7 @@ any make_any(Args&&... args) {
 }
 
 namespace std {
+template <>
 void swap(reflectance::any& lhs, reflectance::any& rhs) {
 	lhs.swap(rhs);
 }
