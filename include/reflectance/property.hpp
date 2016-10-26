@@ -20,19 +20,19 @@ public:
 	virtual bool getable() const noexcept = 0;
 	virtual bool setable() const noexcept = 0;
 
-	virtual size_t base_type_hash_code() const noexcept {
-		return typeid(BaseType).hash_code();
+	virtual const std::type_info& base_type() const noexcept {
+		return typeid(BaseType);
 	}
 
-	virtual size_t hash_code() const noexcept {
-		return typeid(ValueType).hash_code();
+	virtual const std::type_info& type() const noexcept {
+		return typeid(ValueType);
 	}
 };
 
 template <typename ValueType, typename BaseType>
 auto& property_cast(abstract_property& property) {
-	if(typeid(BaseType).hash_code() == property.base_type_hash_code() &&
-		 typeid(ValueType).hash_code() == property.hash_code()) {
+	if(typeid(BaseType).hash_code() == property.base_type().hash_code() &&
+		 typeid(ValueType).hash_code() == property.type().hash_code()) {
 		return static_cast<reflectance::property<ValueType, BaseType>&>(property);
 	} else {
 		throw bad_property_cast{property.name()};
@@ -41,8 +41,8 @@ auto& property_cast(abstract_property& property) {
 
 template <typename ValueType, typename BaseType>
 const auto& property_cast(const abstract_property& property) {
-	if(typeid(BaseType).hash_code() == property.base_type_hash_code() &&
-		 typeid(ValueType).hash_code() == property.hash_code()) {
+	if(typeid(BaseType).hash_code() == property.base_type().hash_code() &&
+		 typeid(ValueType).hash_code() == property.type().hash_code()) {
 		return static_cast<const reflectance::property<ValueType, BaseType>&>(property);
 	} else {
 		throw bad_property_cast{property.name()};

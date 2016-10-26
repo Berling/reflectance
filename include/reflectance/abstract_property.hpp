@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <typeinfo>
 
 namespace reflectance {
 class abstract_property {
@@ -15,8 +16,8 @@ public:
 		return _name;
 	}
 
-	virtual size_t base_type_hash_code() const noexcept = 0;
-	virtual size_t hash_code() const noexcept = 0;
+	virtual const std::type_info& base_type() const noexcept = 0;
+	virtual const std::type_info& type() const noexcept = 0;
 };
 
 abstract_property::~abstract_property() {}
