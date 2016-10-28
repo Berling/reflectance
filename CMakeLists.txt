@@ -66,22 +66,6 @@ file(GLOB_RECURSE examples_HDR
 add_executable(examples ${examples_SRC} ${examples_HDR}) 
 target_link_libraries(examples ${LINKED_LIBRARIES})
 
-#############################################
-# Reflectance library target
-#############################################
-#project files to compile
-file(GLOB_RECURSE project_SRC
-	${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
-)
-file(GLOB_RECURSE project_HDR
-	${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp
-)
-
-#build executable and then link to the libraries
-add_library(reflectance STATIC ${project_SRC} ${project_HDR}) 
-set_target_properties(reflectance PROPERTIES LINKER_LANGUAGE CXX)
-target_link_libraries(reflectance ${LINKED_LIBRARIES})
-
 #generate completion database
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
