@@ -1,6 +1,7 @@
 #pragma once
 
 #include <reflectance/abstract_assigner.hpp>
+#include <reflectance/property.hpp>
 
 namespace reflectance {
 template <typename ValueType, typename OwnerType, typename BaseType = OwnerType>

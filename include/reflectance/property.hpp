@@ -5,6 +5,7 @@
 #include <typeinfo>
 
 #include <reflectance/abstract_property.hpp>
+#include <reflectance/exception.hpp>
 
 namespace reflectance {
 template <typename ValueType>
