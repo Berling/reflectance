@@ -8,6 +8,7 @@ install:
   - wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
   - sudo apt-get update -y
   - sudo apt-get install clang-3.9
+  - ls /usr/bin
   - sudo rm /usr/bin/clang && sudo ln -s /usr/bin/clang-3.9 /usr/bin/clang
   - sudo rm /usr/bin/clang++ && sudo ln -s /usr/bin/clang++-3.9 /usr/bin/clang++-3.9
 script:
