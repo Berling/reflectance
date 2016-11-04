@@ -52,3 +52,6 @@ compile_commands.json
 
 # Temporary files
 *~
+
+# Doxygen
+documentation/
