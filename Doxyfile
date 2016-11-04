@@ -44,7 +44,7 @@ PROJECT_NUMBER         = 0.0.1
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "Reflectance is a simple somewhat reflection like C++ library. One can register a set of properties to construct an instance of a non fundamental type without knowing the actual type or accessing members with only knowing the name of the member. This feature set is not ideal and there is still a lot of manual work to do but it is less painfull (in my humble oppinion) than other approaches. The library is designed to be used in a data driven approach, e.g. instanciating non fundamental types via a description file."
+PROJECT_BRIEF          = "Reflectance is a simple somewhat reflection like C++ library. One can register a set of properties to construct an instance of a non fundamental type without knowing the actual type or accessing members with only knowing the name of the member. This feature set is not ideal and there is still a lot of manual work to do but it is less painfull (in my humble opinion) than other approaches. The library is designed to be used in a data driven approach, e.g. instanciating non fundamental types via a description file."
 
 # With the PROJECT_LOGO tag one can specify a logo or an icon that is included
 # in the documentation. The maximum height of the logo should not exceed 55
