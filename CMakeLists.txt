@@ -42,10 +42,12 @@ set(CLANG_STD_CXX
 )
 
 if (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
-	set( LINKED_LIBRARIES
-		${LINKED_LIBRARIES}
-		${CLANG_STD_CXX}
-	)
+	if (CLANG_WITH_LIB_STD_CPP)
+		set( LINKED_LIBRARIES
+			${LINKED_LIBRARIES}
+			${CLANG_STD_CXX}
+		)
+	endif ()
 endif ()
 
 #set output directory
