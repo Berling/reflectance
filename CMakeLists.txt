@@ -14,7 +14,9 @@ set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 #set compiler options
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -Wall -Wextra -Werror")
 if (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+	if (NOT CLANG_WITH_LIB_STD_CPP)
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+	endif ()
 endif ()
 
 #define symbols for debug build
