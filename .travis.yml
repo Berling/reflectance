@@ -16,6 +16,6 @@ addons:
       - g++-5
       - gcc-5
 script:
-  - if [ "$CXX" = "clang++" ]; then export CXX="clang++-3.9" CC="clang-3.9"; fi
+  - if [ "$CXX" = "clang++" ]; then export CXX="g++-5" CC="gcc-5"; fi
   - cmake -G "Unix Makefiles" -DCLANG_WITH_LIB_STD_CPP=true
   - make -j $[$(grep -c ^processor /proc/cpuinfo)2]
