@@ -9,7 +9,7 @@
 
 namespace reflectance {
 template <typename ValueType>
-using accessor_type = std::conditional_t<std::is_fundamental_v<ValueType>, ValueType, const ValueType&>;
+using accessor_type = std::conditional_t<std::is_fundamental<ValueType>::value, ValueType, const ValueType&>;
 
 template <typename ValueType, typename BaseType>
 class property : public abstract_property {

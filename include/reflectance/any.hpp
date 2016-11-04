@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstring>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
@@ -131,11 +132,11 @@ public:
 	}
 
 	template <typename ValueType>
-	any(std::enable_if_t<!std::is_same_v<std::decay_t<ValueType>, any>, ValueType>&& value) {
+	any(std::enable_if_t<!std::is_same<std::decay_t<ValueType>, any>::value, ValueType>&& value) {
 		using decayed_value_type = std::decay_t<ValueType>;
-		static_assert(std::is_copy_constructible_v<decayed_value_type>);
+		static_assert(std::is_copy_constructible<decayed_value_type>::value);
 		decayed_value_type contained_value{std::forward<ValueType>(value)};
-		if(sizeof(decayed_value_type) <= 3 * sizeof(size_t) && std::is_trivially_copyable_v<decayed_value_type>) {
+		if(sizeof(decayed_value_type) <= 3 * sizeof(size_t) && std::is_trivially_copyable<decayed_value_type>::value) {
 			new(&_stack_allocated_contained_value) decayed_value_type{std::forward<ValueType>(value)};
 			_stack_allocated = true;
 		} else {
@@ -148,8 +149,8 @@ public:
 
 	template <typename T, typename... Args>
 	any(in_place_type_t<T>, Args... args) {
-		static_assert(std::is_constructible_v<T, Args...>);
-		if(sizeof(T) <= 3 * sizeof(size_t) && std::is_trivially_copyable_v<T>) {
+		static_assert(std::is_constructible<T, Args...>::value);
+		if(sizeof(T) <= 3 * sizeof(size_t) && std::is_trivially_copyable<T>::value) {
 			new(&_stack_allocated_contained_value) T{std::forward<Args>(args)...};
 			_stack_allocated = true;
 		} else {
@@ -166,8 +167,8 @@ public:
 	}
 
 	template <typename ValueType>
-	any& operator=(std::enable_if_t<!std::is_same_v<std::decay_t<ValueType>, any>, ValueType>&& rhs) {
-		static_assert(std::is_copy_constructible_v<std::decay_t<ValueType>>);
+	any& operator=(std::enable_if_t<!std::is_same<std::decay_t<ValueType>, any>::value, ValueType>&& rhs) {
+		static_assert(std::is_copy_constructible<std::decay_t<ValueType>>::value);
 		any(std::forward<ValueType>(rhs)).swap(*this);
 		rhs._stack_allocated = false;
 		rhs._heap_allocated_conatined_value = nullptr;
@@ -176,8 +177,8 @@ public:
 
 	template <typename T, typename... Args>
 	void emplace(Args&&... args) {
-		static_assert(std::is_constructible_v<T, Args...>);
-		if(sizeof(T) <= 3 * sizeof(size_t) && std::is_trivially_copyable_v<T>) {
+		static_assert(std::is_constructible<T, Args...>::value);
+		if(sizeof(T) <= 3 * sizeof(size_t) && std::is_trivially_copyable<T>::value) {
 			new(&_stack_allocated_contained_value) T{std::forward<Args>(args)...};
 			_stack_allocated = true;
 		} else {
@@ -248,7 +249,7 @@ const ValueType* any_cast(const any* operand) noexcept {
 
 template <typename ValueType>
 ValueType any_cast(const any& operand) {
-	static_assert(std::is_reference_v<ValueType> || std::is_copy_constructible_v<ValueType>);
+	static_assert(std::is_reference<ValueType>::value || std::is_copy_constructible<ValueType>::value);
 	if(operand.type().hash_code() == typeid(ValueType).hash_code()) {
 		return *any_cast<std::add_const_t<std::remove_reference_t<ValueType>>>(&operand);
 	}
@@ -257,7 +258,7 @@ ValueType any_cast(const any& operand) {
 
 template <typename ValueType>
 ValueType any_cast(any& operand) {
-	static_assert(std::is_reference_v<ValueType> || std::is_copy_constructible_v<ValueType>);
+	static_assert(std::is_reference<ValueType>::value || std::is_copy_constructible<ValueType>::value);
 	if(operand.type().hash_code() == typeid(ValueType).hash_code()) {
 		return *any_cast<std::remove_reference_t<ValueType>>(&operand);
 	}
@@ -266,7 +267,7 @@ ValueType any_cast(any& operand) {
 
 template <typename ValueType>
 ValueType any_cast(any&& operand) {
-	static_assert(std::is_reference_v<ValueType> || std::is_copy_constructible_v<ValueType>);
+	static_assert(std::is_reference<ValueType>::value || std::is_copy_constructible<ValueType>::value);
 	if(operand.type().hash_code() == typeid(ValueType).hash_code()) {
 		return *any_cast<std::remove_reference_t<ValueType>>(&operand);
 	}

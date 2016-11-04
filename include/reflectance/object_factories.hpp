@@ -39,13 +39,13 @@ public:
 
 	template <typename T>
 	T construct(const std::string& type, const argument_list& argument_list) const {
-		static_assert(!std::is_pointer_v<T> && !std::is_reference_v<T>);
+		static_assert(!std::is_pointer<T>::value && !std::is_reference<T>::value);
 		return any_cast<T>(construct(type, argument_list));
 	}
 
 	template <typename T>
 	T construct(const std::string& type, const named_argument_list& argument_list) const {
-		static_assert(!std::is_pointer_v<T> && !std::is_reference_v<T>);
+		static_assert(!std::is_pointer<T>::value && !std::is_reference<T>::value);
 		return any_cast<T>(construct(type, argument_list));
 	}
 };
