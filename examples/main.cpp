@@ -19,14 +19,16 @@ private:
 	const reflectance::object_factories& _object_factories;
 
 public:
-	object_description_converter(const reflectance::object_factories& factories) : _object_factories{factories} {}
+	object_description_converter(const reflectance::object_factories& factories)
+	: _object_factories{factories} {
+	}
 
 	reflectance::any convert_fundamental_type(const node& ast) const {
-		if(ast.type == "int") {
+		if (ast.type == "int") {
 			return reflectance::make_any<int>(std::stoi(ast.value));
-		} else if(ast.type == "float") {
+		} else if (ast.type == "float") {
 			return reflectance::make_any<float>(std::stof(ast.value));
-		} else if(ast.type == "string") {
+		} else if (ast.type == "string") {
 			return reflectance::make_any<std::string>(ast.value);
 		} else {
 			return reflectance::any{};
@@ -34,12 +36,12 @@ public:
 	}
 
 	reflectance::any convert(const node& ast) const {
-		if(ast.children.empty()) {
+		if (ast.children.empty()) {
 			return convert_fundamental_type(ast);
 		}
 
 		reflectance::named_argument_list arguments;
-		for(auto&& node : ast.children) {
+		for (auto&& node : ast.children) {
 			arguments[node.name] = convert(node);
 		}
 
@@ -135,15 +137,15 @@ int main(int, char**) { // clang-format off
 	object_description_converter converter{factories};
 
 	auto instance = converter.convert(ast);
-	if(instance.type() == typeid(void)) {
+	if (instance.type() == typeid(void)) {
 		std::cout << "type could not be constructed" << std::endl;
-	} else if(instance.type() == typeid(widget)) {
+	} else if (instance.type() == typeid(widget)) {
 		auto& typed_referenc = reflectance::any_cast<widget&>(instance);
 
 		std::cout << "widget" << std::endl;
 		std::cout << "name: " << typed_referenc.name() << std::endl;
-		std::cout << "position: vec2{" << typed_referenc.position().x << ", " << typed_referenc.position().y << "}"
-							<< std::endl;
+		std::cout << "position: vec2{" << typed_referenc.position().x << ", "
+							<< typed_referenc.position().y << "}" << std::endl;
 	}
 
 	return 0;
