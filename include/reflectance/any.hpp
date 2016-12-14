@@ -287,7 +287,7 @@ namespace reflectance {
 
 namespace std {
 	template <>
-	void swap(reflectance::any& lhs, reflectance::any& rhs) {
+	inline void swap(reflectance::any& lhs, reflectance::any& rhs) {
 		lhs.swap(rhs);
 	}
 }
