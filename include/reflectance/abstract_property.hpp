@@ -9,8 +9,7 @@ namespace reflectance {
 		std::string _name;
 
 	public:
-		abstract_property(const std::string& name) : _name{name} {
-		}
+		abstract_property(const std::string& name) : _name{name} {}
 		virtual ~abstract_property() = 0;
 
 		auto& name() const noexcept {
@@ -21,6 +20,5 @@ namespace reflectance {
 		virtual const std::type_info& type() const noexcept = 0;
 	};
 
-	abstract_property::~abstract_property() {
-	}
+	inline abstract_property::~abstract_property() {}
 }
